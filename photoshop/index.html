@@ -7,21 +7,27 @@
 <style>
 /* Layout: artboard workspace — left panel = tool index (like Photoshop's tool panel), right = slides on a canvas */
 :root{
-  --bg:#f3f5f4; --panel:#ffffff; --ink:#1d2523; --muted:#5f6d6a; --line:#dde3e1;
-  --accent:#16807a; --accent-soft:#e2f1ef; --anchor:#c9612b;
-  --canvas:#e8ecea; --shadow:0 1px 2px rgba(20,40,36,.08),0 6px 20px rgba(20,40,36,.07);
+  --bg:#f4f7fb; --panel:#ffffff; --ink:#0b2238; --muted:#5b6f84; --line:#d6e1ec;
+  --accent:#0b6fc4; --fill:#31a8ff; --accent-soft:#e3f1fd; --anchor:#31a8ff; --on-fill:#001e36;
+  --canvas:#e9eff6; --shadow:0 1px 2px rgba(0,30,54,.08),0 6px 20px rgba(0,30,54,.08);
+  --done:#e8f5ff; --done-line:#7cc4ff;
+  --navy:#001e36; --navy-2:#062c4d; --navy-line:#123a5e; --navy-ink:#e4effa; --navy-muted:#8aa5bf;
   --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --side:300px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141a19; --panel:#1b2221; --ink:#e6ecea; --muted:#9aa9a5; --line:#2c3634;
-  --accent:#4fbcb3; --accent-soft:#1d3532; --anchor:#e98b55; --canvas:#101514;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3); color-scheme:dark}}
+  --bg:#03182b; --panel:#0a2640; --ink:#e4effa; --muted:#93abc3; --line:#173d61;
+  --accent:#5cbcff; --fill:#31a8ff; --accent-soft:#0e3658; --anchor:#31a8ff; --on-fill:#001e36;
+  --canvas:#00121f; --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+  --done:#0c3354; --done-line:#2f86c9; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#141a19; --panel:#1b2221; --ink:#e6ecea; --muted:#9aa9a5; --line:#2c3634;
-  --accent:#4fbcb3; --accent-soft:#1d3532; --anchor:#e98b55; --canvas:#101514;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3); color-scheme:dark}
+  --bg:#03182b; --panel:#0a2640; --ink:#e4effa; --muted:#93abc3; --line:#173d61;
+  --accent:#5cbcff; --fill:#31a8ff; --accent-soft:#0e3658; --anchor:#31a8ff; --on-fill:#001e36;
+  --canvas:#00121f; --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+  --done:#0c3354; --done-line:#2f86c9; color-scheme:dark}
+/* Sidebar and phone top bar are always Photoshop navy, in both themes */
+aside,.topbar{--panel:var(--navy);--bg:var(--navy-2);--ink:var(--navy-ink);--muted:var(--navy-muted);--line:var(--navy-line);--accent:#31a8ff;--accent-soft:#0f3a60;color:var(--ink);color-scheme:dark}
 html,body{height:100%}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6}
@@ -99,10 +105,38 @@ figcaption .pg{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .dl-b{min-width:0;display:flex;flex-direction:column;gap:4px}
 .dl-b p{margin:0;font-size:13px;color:var(--muted)}
 .dl-b small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
-.dl-btn{align-self:flex-start;margin-top:6px;background:var(--accent);color:var(--panel);text-decoration:none;border-radius:7px;padding:6px 14px;font-size:13px;font-weight:500}
+.dl-btn{align-self:flex-start;margin-top:6px;background:var(--fill);color:var(--on-fill);text-decoration:none;border-radius:7px;padding:6px 14px;font-size:13px;font-weight:500}
 .dl-btn:hover{filter:brightness(1.08)}
 .note{color:var(--muted);font-size:13px;margin-top:12px}
 .frame img{background:linear-gradient(90deg,#fff,#eef4f2,#fff)}
+/* Teaching progress */
+.prog{padding:12px 16px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.prog-h{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}
+.prog-h b{font-weight:700}
+.prog-h span{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--fill)}
+.bar-t{height:6px;border-radius:99px;background:var(--bg);overflow:hidden}
+.bar-f{height:100%;background:var(--fill);border-radius:99px;transition:width .25s}
+.prog-a{display:flex;gap:6px;flex-wrap:wrap}
+.prog-a button{font-size:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:3px 9px;cursor:pointer}
+.prog-a button:hover{border-color:var(--fill)}
+.prog-m{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+.item .st{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.item.done .dot{background:var(--fill);border-color:var(--fill)}
+.item.part .dot{background:linear-gradient(90deg,var(--fill) 50%,transparent 50%);border-color:var(--fill)}
+.item.done .st{color:var(--fill)}
+.teach{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--ink);user-select:none}
+.teach input{width:17px;height:17px;margin:0;accent-color:var(--fill);flex:none;cursor:pointer}
+.card-w{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:border-color .15s,transform .15s}
+.card-w:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-w .card{border:0;border-radius:0;flex:1}
+.card-w .card:hover{transform:none}
+.card-w .teach{padding:9px 12px;border-top:1px solid var(--line);font-size:12px}
+.card-w.done{border-color:var(--done-line);background:var(--done)}
+.card-w.done .card{background:var(--done)}
+.unit-teach{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+figure.done .frame{outline:3px solid var(--done-line);outline-offset:0}
+figcaption .teach{font-size:12px}
+.fc-r{display:flex;align-items:center;gap:14px;flex:none}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -135,6 +169,7 @@ figcaption .pg{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
       <b>Photoshop 第一堂課</b>
       <span>影像基礎・圖層・選取・遮色片・輸出</span>
     </div>
+    <section class="prog" id="prog" aria-label="授課進度"></section>
     <div class="search"><input id="q" type="search" placeholder="搜尋功能，例如：遮色片、圖層、Ctrl+J" autocomplete="off"></div>
     <nav id="nav"></nav>
   </aside>
@@ -220,7 +255,7 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;
 function buildNav(){
   nav.innerHTML = GROUPS.map(g=>`<div class="grp" data-g="${g.id}">
     <div class="grp-h"><b>${esc(g.label)}</b><small>${esc(g.sub)}</small></div>
-    ${g.items.map(it=>`<button class="item" type="button" data-id="${it.id}"><i class="dot"></i><span class="nm">${esc(it.t)}</span>${it.k?`<kbd>${esc(it.k)}</kbd>`:""}</button>`).join("")}
+    ${g.items.map(it=>`<button class="item" type="button" data-id="${it.id}"><i class="dot"></i><span class="nm">${esc(it.t)}</span>${it.k?`<kbd>${esc(it.k)}</kbd>`:""}<span class="st"></span></button>`).join("")}
   </div>`).join("") + `<div class="empty" id="empty" hidden>找不到符合的功能，換個關鍵字試試。</div>`;
   nav.addEventListener("click",e=>{const b=e.target.closest(".item"); if(b) go(b.dataset.id)});
 }
@@ -238,6 +273,11 @@ function filter(q){
   $("#empty").hidden=any;
 }
 function card(it){
+  const inner=cardInner(it);
+  if(!it.p.length) return `<div class="card-w">${inner}</div>`;
+  return `<div class="card-w" data-unit="${it.p.join(",")}">${inner}${teachBox(it.p,it.p.length>1?"整個單元已教過":"已教過")}</div>`;
+}
+function cardInner(it){
   if(it.dl) return `<button class="card" type="button" data-id="${it.id}"><img src="${DOWNLOADS[0].thumb}" alt="" loading="lazy"><div class="cb"><span class="ct">${esc(it.t)}</span><span class="cm"><span>${DOWNLOADS.length} 個檔案</span><span class="kbd">下載</span></span></div></button>`;
   return `<button class="card" type="button" data-id="${it.id}"><img src="${TH[it.p[0]-1]}" alt="" loading="lazy"><div class="cb"><span class="ct">${esc(it.t)}</span><span class="cm"><span>${range(it.p)}</span>${it.k?`<span class="kbd">${esc(it.k)}</span>`:""}</span></div></button>`;
 }
@@ -249,8 +289,51 @@ function renderHome(){
     ${GROUPS.map(g=>`<section class="sec"><div class="sec-h"><h2>${esc(g.label)}</h2><small>${esc(g.sub)}</small></div><div class="grid">${g.items.map(card).join("")}</div></section>`).join("")}`;
   view.querySelectorAll(".card").forEach(c=>c.onclick=()=>go(c.dataset.id));
   $("#tbTitle").textContent="Photoshop 第一堂課";
+  markAll();
 }
 let cur=null;
+// ===== 授課進度：勾選已上過的頁面，存在這台電腦的瀏覽器 =====
+const PKEY="photoshop-class01-taught-v1";
+let taught=new Set(), storeOK=true;
+try{const s=JSON.parse(localStorage.getItem(PKEY)||"[]"); if(Array.isArray(s)) taught=new Set(s.filter(n=>Number.isInteger(n)&&n>=1&&n<=PAGE_TITLES.length));}catch(e){storeOK=false}
+function saveTaught(){try{localStorage.setItem(PKEY,JSON.stringify([...taught].sort((a,b)=>a-b)));storeOK=true}catch(e){storeOK=false}}
+function teachBox(nums,label){return `<label class="teach"><input type="checkbox" class="teach-cb" data-nums="${nums.join(",")}" data-label="${esc(label)}"><span>${esc(label)}</span></label>`}
+function cnt(nums){return nums.filter(n=>taught.has(n)).length}
+function markAll(){
+  document.querySelectorAll("input.teach-cb").forEach(cb=>{
+    const nums=cb.dataset.nums.split(",").map(Number), c=cnt(nums);
+    cb.checked=c===nums.length; cb.indeterminate=c>0&&c<nums.length;
+    cb.nextElementSibling.textContent=cb.dataset.label+(nums.length>1?`（${c}/${nums.length}）`:"");
+  });
+  document.querySelectorAll(".card-w[data-unit]").forEach(w=>{const nums=w.dataset.unit.split(",").map(Number);w.classList.toggle("done",cnt(nums)===nums.length)});
+  document.querySelectorAll("figure[data-page]").forEach(f=>f.classList.toggle("done",taught.has(+f.dataset.page)));
+  document.querySelectorAll("#nav .item").forEach(b=>{const it=byId[b.dataset.id]; if(!it||!it.p.length)return; const c=cnt(it.p);
+    b.classList.toggle("done",c===it.p.length); b.classList.toggle("part",c>0&&c<it.p.length);
+    b.querySelector(".st").textContent=c===it.p.length?"✓":c?`${c}/${it.p.length}`:"";});
+  const total=PAGE_TITLES.length, pct=Math.round(taught.size/total*100);
+  $("#prog").innerHTML=`<div class="prog-h"><b>授課進度</b><span>${taught.size} / ${total} 頁・${pct}%</span></div>
+    <div class="bar-t" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${taught.size}"><div class="bar-f" style="width:${pct}%"></div></div>
+    <p class="prog-m">${storeOK?"勾選後自動存在這台電腦的瀏覽器。":"這個瀏覽器無法儲存，請記得匯出備份。"}換電腦或瀏覽器前，先匯出進度。</p>
+    <div class="prog-a"><button type="button" id="pExport">匯出進度</button><button type="button" id="pImport">匯入進度</button><button type="button" id="pReset">清除</button></div>
+    <input type="file" id="pFile" accept=".json,application/json" hidden><p class="prog-m" id="pMsg" role="status"></p>`;
+}
+document.addEventListener("change",e=>{
+  const cb=e.target.closest("input.teach-cb"); if(!cb)return;
+  cb.dataset.nums.split(",").map(Number).forEach(n=>cb.checked?taught.add(n):taught.delete(n));
+  saveTaught(); markAll();
+});
+document.addEventListener("click",e=>{
+  const id=e.target.id;
+  if(id==="pExport"){const blob=new Blob([JSON.stringify({format:PKEY,savedAt:new Date().toISOString(),taught:[...taught].sort((a,b)=>a-b)},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Photoshop_第一堂_授課進度.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+  if(id==="pImport") $("#pFile").click();
+  if(id==="pReset"){ if(e.target.dataset.sure){taught.clear();saveTaught();markAll();$("#pMsg").textContent="已清除全部勾選。";} else {e.target.dataset.sure="1";e.target.textContent="再按一次確認清除";} }
+},true);
+document.addEventListener("change",async e=>{
+  if(e.target.id!=="pFile")return; const f=e.target.files[0]; if(!f)return;
+  try{const d=JSON.parse(await f.text()); if(d.format!==PKEY||!Array.isArray(d.taught))throw 0; d.taught.filter(n=>Number.isInteger(n)&&n>=1&&n<=PAGE_TITLES.length).forEach(n=>taught.add(n)); saveTaught(); markAll(); $("#pMsg").textContent="已合併匯入的進度。";}
+  catch(err){ markAll(); $("#pMsg").textContent="檔案格式不符，請選擇從這裡匯出的進度 JSON。"; }
+});
+
 function dlBox(list,head){
   if(!list.length) return "";
   return `<section class="dl"><h2>${esc(head)}</h2><div class="dl-grid">${list.map(d=>`<article class="dl-item"><img src="${d.thumb}" alt="" loading="lazy"><div class="dl-b"><b>${esc(d.title)}</b><p>${esc(d.desc)}</p><small>${esc(d.spec)}</small><a class="dl-btn" href="${encodeURI(d.file)}" download="${esc(d.name)}">下載檔案</a></div></article>`).join("")}</div></section>`;
@@ -281,9 +364,9 @@ function renderTopic(it){
   const titles=[...new Set(it.p.map(n=>PAGE_TITLES[n-1]))];
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div>
     <h1>${esc(it.t)}</h1>
-    <div class="meta"><span>${range(it.p)}・共 ${it.p.length} 頁</span>${it.k?`<span>快捷鍵 <span class="kbd">${esc(it.k)}</span></span>`:""}</div>
+    <div class="meta"><span>${range(it.p)}・共 ${it.p.length} 頁</span><span class="unit-teach">${teachBox(it.p,it.p.length>1?"整個單元已教過":"本頁已教過")}</span>${it.k?`<span>快捷鍵 <span class="kbd">${esc(it.k)}</span></span>`:""}</div>
     ${it.p.length>1?`<div class="chips">${it.p.map(n=>`<button class="chip" type="button" data-jump="${n}">${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
-    <div class="slides">${it.p.map(n=>`<figure id="s${n}"><button class="frame" type="button" data-p="${n}" aria-label="放大第 ${n} 頁"><img src="${IMG[n-1]}" alt="${esc(PAGE_TITLES[n-1])}" ${n===it.p[0]?"":'loading="lazy"'}></button><figcaption><span>${esc(PAGE_TITLES[n-1])}</span><span class="pg">${String(n).padStart(2,"0")} / ${PAGE_TITLES.length}</span></figcaption></figure>`).join("")}</div>
+    <div class="slides">${it.p.map(n=>`<figure id="s${n}" data-page="${n}"><button class="frame" type="button" data-p="${n}" aria-label="放大第 ${n} 頁"><img src="${IMG[n-1]}" alt="${esc(PAGE_TITLES[n-1])}" ${n===it.p[0]?"":'loading="lazy"'}></button><figcaption><span>${esc(PAGE_TITLES[n-1])}</span><span class="fc-r">${it.p.length>1?teachBox([n],"本頁已教過"):""}<span class="pg">${String(n).padStart(2,"0")} / ${PAGE_TITLES.length}</span></span></figcaption></figure>`).join("")}</div>
     ${dlBox(DOWNLOADS.filter(d=>d.pages.some(n=>it.p.includes(n))),"這個單元會用到的素材")}
     <div class="pager"><button type="button" class="prev" ${prev?`data-id="${prev.id}"`:"disabled"}><small>← 上一個功能</small><b>${prev?esc(prev.t):""}</b></button><button type="button" class="next" ${next?`data-id="${next.id}"`:"disabled"}><small>下一個功能 →</small><b>${next?esc(next.t):""}</b></button></div>`;
   view.querySelectorAll(".chip").forEach(c=>c.onclick=()=>document.getElementById("s"+c.dataset.jump).scrollIntoView({behavior:"smooth",block:"start"}));
@@ -291,6 +374,7 @@ function renderTopic(it){
   view.querySelectorAll(".pager button[data-id]").forEach(b=>b.onclick=()=>go(b.dataset.id));
   $("#tbTitle").textContent=it.t;
   warm(it);
+  markAll();
 }
 function go(id,push=true){
   const it=byId[id];
@@ -322,6 +406,7 @@ $("#home").onkeydown=e=>{if(e.key==="Enter")go(null)};
 $("#openSide").onclick=()=>side.classList.add("open");
 $("#closeSide").onclick=()=>side.classList.remove("open");
 buildNav();
+markAll();
 const h=(location.hash||"").slice(1);
 go(byId[h]?h:null,false);
 window.addEventListener("hashchange",()=>{const k=location.hash.slice(1); if((byId[k]||null)!==cur) go(byId[k]?k:null,false);});
