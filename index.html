@@ -169,6 +169,12 @@ figcaption .teach{font-size:12px}
   .arrow{width:38px;height:38px;font-size:24px}.arrow.left{left:-8px}.arrow.right{right:-8px}
   .stage-bar{grid-template-columns:1fr 1fr}.stage-mid{grid-column:1/-1;grid-row:1}
 }
+.vid{position:absolute;inset:0;background:#000}
+.vid iframe{width:100%;height:100%;border:0;display:block}
+.frame.is-video{aspect-ratio:16/9}
+.frame.is-video .zone{display:none}
+.yt-link{font-size:12px;font-weight:400;color:var(--accent);margin-left:8px;white-space:nowrap}
+.dl+.dl{margin-top:16px}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -224,7 +230,9 @@ const PAGE_TITLES = [
 "操作 06：更換背景與局部調色","基本調色 ①：亮度與對比","基本調色 ②：色相與飽和度","文字工具：建立資訊層級","操作 07：標題、副標與姓名",
 "儲存 PSD，再輸出圖片","操作 08：輸出 JPG 與透明 PNG","25 分鐘練習：FLOWER STUDY","常用快捷鍵｜Windows / Mac","回家作業公告：暖身練習 1",
 "01 建立文件與置入素材","02 選取工具：先抓主體，再修範圍","03 建立遮色片與修整花瓣","04 油漆桶：建立白色背景","05 灰色剪影：用選取範圍填色",
-"06 變形與複製：安排花影背景","07 文字與前後層次","08 繳交前檢查與輸出","回家作業規格：FLOWER STUDY 花卉文字海報"];
+"06 變形與複製：安排花影背景","07 文字與前後層次","08 繳交前檢查與輸出","回家作業規格：FLOWER STUDY 花卉文字海報",
+"樹木去背：色版、色階、曲線與遮色片","影片：樹木去背操作示範"];
+const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
   {id:"intro", t:"課程概覽與操作順序", p:[1,2,3]},
@@ -256,6 +264,9 @@ const GROUPS = [
   {id:"practice", t:"25 分鐘練習：FLOWER STUDY", p:[38]},
   {id:"keys", t:"常用快捷鍵", p:[39]},
  ]},
+ {id:"extra", label:"補充教學", sub:"色版去背・影片示範", items:[
+  {id:"tree", t:"樹木去背（色版）", k:"Ctrl/Cmd+點縮圖", p:[50,51]},
+ ]},
  {id:"hw", label:"回家作業", sub:"暖身練習 1・FLOWER STUDY", items:[
   {id:"hwbrief", t:"作業公告與規格", p:[40,49]},
   {id:"hw1", t:"01 建立文件與置入素材", p:[41]},
@@ -270,12 +281,18 @@ const GROUPS = [
  ]},
 ];
 const DOWNLOADS = [
- {file:"downloads/flower-practice.png", name:"Photoshop_第一堂_花卉練習.png", title:"花卉練習照片", desc:"課堂與作業使用的素材照片。用「檔案 → 置入嵌入物件」放進 1080 × 1080 文件。", spec:"PNG・1536 × 1024 px", thumb:"downloads/flower-thumb.webp", pages:[5,15,25,26,38,41]},
- {file:"downloads/flower-study-example.jpg", name:"FLOWER_STUDY_作業範例.jpg", title:"FLOWER STUDY 作業範例", desc:"回家作業完成圖參考。版面配置可參考，學號與姓名請換成自己的。", spec:"JPG・1080 × 1080 px", thumb:"downloads/example-thumb.webp", pages:[38,40,47,48,49]},
+ {file:"downloads/flower-practice.png", name:"Photoshop_第一堂_花卉練習.png", title:"花卉練習照片", desc:"課堂與作業使用的素材照片。用「檔案 → 置入嵌入物件」放進 1080 × 1080 文件。", spec:"PNG・1536 × 1024 px", thumb:"downloads/flower-thumb.webp", pages:[5,15,25,26,38,41], group:"課堂與作業素材"},
+ {file:"downloads/flower-study-example.jpg", name:"FLOWER_STUDY_作業範例.jpg", title:"FLOWER STUDY 作業範例", desc:"回家作業完成圖參考。版面配置可參考，學號與姓名請換成自己的。", spec:"JPG・1080 × 1080 px", thumb:"downloads/example-thumb.webp", pages:[38,40,47,48,49], group:"課堂與作業素材"},
+ {file:"downloads/tree.jpg", name:"樹木去背_樹木.jpg", title:"樹木照片", desc:"樹木去背練習主圖。用色版找出樹與天空對比最明顯的一個。", spec:"JPG・2576 × 1724 px", thumb:"downloads/tree-thumb.webp", pages:[50,51], group:"樹木去背練習素材"},
+ {file:"downloads/sky.jpg", name:"樹木去背_夕陽天空.jpg", title:"夕陽天空背景", desc:"去背完成後，放在樹木圖層下方當新背景。", spec:"JPG・2576 × 1720 px", thumb:"downloads/sky-thumb.webp", pages:[50,51], group:"樹木去背練習素材"},
+ {file:"downloads/portrait-stripes.jpg", name:"去背練習_人像_條紋上衣.jpg", title:"人像：條紋上衣", desc:"淺色背景人像，可練習選取主體、修整髮絲與遮色片。", spec:"JPG・2576 × 1717 px", thumb:"downloads/portrait-stripes-thumb.webp", pages:[], group:"其他去背練習素材"},
+ {file:"downloads/portrait-pointing.jpg", name:"去背練習_人像_手指方向.jpg", title:"人像：手指方向", desc:"淺色背景人像，練習選取主體後再換背景或排文字。", spec:"JPG・2576 × 1717 px", thumb:"downloads/portrait-pointing-thumb.webp", pages:[], group:"其他去背練習素材"},
+ {file:"downloads/apples-stack.jpg", name:"去背練習_青蘋果_疊放.jpg", title:"青蘋果：疊放", desc:"直式白底素材，適合練習快速選取與陰影保留。", spec:"JPG・1534 × 2576 px", thumb:"downloads/apples-stack-thumb.webp", pages:[], group:"其他去背練習素材"},
+ {file:"downloads/apples-three.jpg", name:"去背練習_青蘋果_三顆.jpg", title:"青蘋果：三顆", desc:"方形白底素材，練習物件選取工具與增加／減少範圍。", spec:"JPG・2576 × 2576 px", thumb:"downloads/apples-three-thumb.webp", pages:[], group:"其他去背練習素材"},
 ];
 
-const IMG = Array.from({length:49},(_,i)=>`slides/p-${String(i+1).padStart(2,"0")}.webp`);
-const TH = Array.from({length:49},(_,i)=>`thumbs/p-${String(i+1).padStart(2,"0")}.webp`);
+const IMG = Array.from({length:PAGE_TITLES.length},(_,i)=>`slides/p-${String(i+1).padStart(2,"0")}.webp`);
+const TH = Array.from({length:PAGE_TITLES.length},(_,i)=>`thumbs/p-${String(i+1).padStart(2,"0")}.webp`);
 const ALL = [];
 GROUPS.forEach(g=>g.items.forEach(it=>{it.g=g;ALL.push(it)}));
 const byId = Object.fromEntries(ALL.map(i=>[i.id,i]));
@@ -374,7 +391,7 @@ function renderDownloads(it){
   const i=ALL.indexOf(it), prev=ALL[i-1];
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div><h1>補充資料下載</h1>
     <div class="meta"><span>練習素材與作業範例・下載後在 Photoshop 開啟或置入</span></div>
-    ${dlBox(DOWNLOADS,"檔案")}
+    ${[...new Set(DOWNLOADS.map(d=>d.group))].map(g=>dlBox(DOWNLOADS.filter(d=>d.group===g),g)).join("")}
     <p class="note">如果按了沒有下載、只開啟圖片，可在圖片上按右鍵選「另存圖片」。</p>
     <div class="pager"><button type="button" class="prev" ${prev?`data-id="${prev.id}"`:"disabled"}><small>← 上一個功能</small><b>${prev?esc(prev.t):""}</b></button><button type="button" class="next" disabled></button></div>`;
   view.querySelectorAll(".pager button[data-id]").forEach(b=>b.onclick=()=>go(b.dataset.id));
@@ -382,7 +399,7 @@ function renderDownloads(it){
 }
 // 預先載入：同主題其他頁、下一個主題第一頁
 const _pre=new Set();
-function pre(n){ if(!n||_pre.has(n))return; _pre.add(n); const im=new Image(); im.decoding="async"; im.src=IMG[n-1]; }
+function pre(n){ if(!n||_pre.has(n)||VIDEOS[n])return; _pre.add(n); const im=new Image(); im.decoding="async"; im.src=IMG[n-1]; }
 function warm(it){
   const i=ALL.indexOf(it), next=ALL[i+1], prev=ALL[i-1];
   const run=()=>{ it.p.forEach(pre); if(next&&next.p[0])pre(next.p[0]); if(prev&&prev.p.length)pre(prev.p[prev.p.length-1]); };
@@ -398,10 +415,10 @@ function renderTopic(it){
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div>
     <h1>${esc(it.t)}</h1>
     <div class="meta"><span>${range(it.p)}・共 ${it.p.length} 頁</span>${it.p.length>1?`<span class="unit-teach">${teachBox(it.p,"整個單元已教過")}</span>`:""}${it.k?`<span>快捷鍵 <span class="kbd">${esc(it.k)}</span></span>`:""}</div>
-    ${it.p.length>1?`<div class="chips">${it.p.map((n,k)=>`<button class="chip" type="button" data-k="${k}">${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
+    ${it.p.length>1?`<div class="chips">${it.p.map((n,k)=>`<button class="chip" type="button" data-k="${k}">${VIDEOS[n]?"▶ ":""}${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
     <div class="stage">
       <button class="arrow left" id="sPrev" type="button" aria-label="上一頁"><span aria-hidden="true">‹</span></button>
-      <figure id="fig"><div class="frame" id="frame" role="img"><img id="slideImg" alt=""><i class="zone zl" title="上一頁"></i><i class="zone zc" title="點一下放大"></i><i class="zone zr" title="下一頁"></i></div></figure>
+      <figure id="fig"><div class="frame" id="frame" role="img"><img id="slideImg" alt=""><div class="vid" id="vid" hidden></div><i class="zone zl" title="上一頁"></i><i class="zone zc" title="點一下放大"></i><i class="zone zr" title="下一頁"></i></div></figure>
       <button class="arrow right" id="sNext" type="button" aria-label="下一頁"><span aria-hidden="true">›</span></button>
     </div>
     <div class="stage-bar">
@@ -435,10 +452,18 @@ function step(d){
 }
 function showPage(k){
   const it=cur; pIdx=k; const n=it.p[k];
-  const img=$("#slideImg"); img.classList.remove("in"); img.src=IMG[n-1]; img.alt=PAGE_TITLES[n-1];
-  const shown=()=>img.classList.add("in"); if(img.complete&&img.naturalWidth)shown(); else img.onload=shown;
+  const img=$("#slideImg"), vid=$("#vid"), v=VIDEOS[n];
+  $("#frame").classList.toggle("is-video",!!v);
+  if(v){
+    img.hidden=true; vid.hidden=false;
+    vid.innerHTML=`<iframe src="https://www.youtube.com/embed/${v.id}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  } else {
+    vid.innerHTML=""; vid.hidden=true; img.hidden=false;
+    img.classList.remove("in"); img.src=IMG[n-1]; img.alt=PAGE_TITLES[n-1];
+    const shown=()=>img.classList.add("in"); if(img.complete&&img.naturalWidth)shown(); else img.onload=shown;
+  }
   $("#fig").dataset.page=n;
-  $("#capT").textContent=PAGE_TITLES[n-1];
+  $("#capT").innerHTML=esc(PAGE_TITLES[n-1])+(v?` <a class="yt-link" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a>`:"");
   $("#capTeach").innerHTML=teachBox([n],"本頁已教過");
   $("#capPg").textContent=(it.p.length>1?`本單元 ${k+1} / ${it.p.length}・`:"")+`第 ${n} / ${PAGE_TITLES.length} 頁`;
   view.querySelectorAll(".chip").forEach((c,j)=>c.setAttribute("aria-current",j===k?"true":"false"));
@@ -461,8 +486,8 @@ function go(id,push=true){
 }
 // Lightbox
 let lbList=[], lbI=0;
-function openLb(it,n){lbList=it.p; lbI=it.p.indexOf(n); showLb(); $("#lb").hidden=false}
-function closeLb(){ $("#lb").hidden=true; if(cur&&!cur.dl&&lbList===cur.p&&lbI!==pIdx) showPage(lbI); }
+function openLb(it,n){lbList=it.p.filter(x=>!VIDEOS[x]); lbI=Math.max(0,lbList.indexOf(n)); showLb(); $("#lb").hidden=false}
+function closeLb(){ $("#lb").hidden=true; if(cur&&!cur.dl){const k=cur.p.indexOf(lbList[lbI]); if(k>=0&&k!==pIdx) showPage(k);} }
 function showLb(){const n=lbList[lbI]; $("#lbImg").src=IMG[n-1]; $("#lbCap").textContent=`${n}・${PAGE_TITLES[n-1]}`; $("#lbPrev").disabled=lbI===0; $("#lbNext").disabled=lbI===lbList.length-1}
 $("#lbClose").onclick=closeLb;
 $("#lb").onclick=e=>{if(e.target.id==="lb")closeLb()};
