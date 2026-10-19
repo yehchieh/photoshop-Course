@@ -231,8 +231,9 @@ const PAGE_TITLES = [
 "儲存 PSD，再輸出圖片","操作 08：輸出 JPG 與透明 PNG","25 分鐘練習：FLOWER STUDY","常用快捷鍵｜Windows / Mac","回家作業公告：暖身練習 1",
 "01 建立文件與置入素材","02 選取工具：先抓主體，再修範圍","03 建立遮色片與修整花瓣","04 油漆桶：建立白色背景","05 灰色剪影：用選取範圍填色",
 "06 變形與複製：安排花影背景","07 文字與前後層次","08 繳交前檢查與輸出","回家作業規格：FLOWER STUDY 花卉文字海報",
-"樹木去背：色版、色階、曲線與遮色片","影片：樹木去背操作示範"];
-const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}};
+"樹木去背：色版、色階、曲線與遮色片","影片：樹木去背操作示範",
+"PS 換色處理：選取與遮色片、色相／飽和度","換色步驟 1：選取不換色範圍，建立遮色片","換色步驟 2：調整色相／飽和度","影片：換色處理操作示範"];
+const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
   {id:"intro", t:"課程概覽與操作順序", p:[1,2,3]},
@@ -264,8 +265,9 @@ const GROUPS = [
   {id:"practice", t:"25 分鐘練習：FLOWER STUDY", p:[38]},
   {id:"keys", t:"常用快捷鍵", p:[39]},
  ]},
- {id:"extra", label:"補充教學", sub:"色版去背・影片示範", items:[
+ {id:"extra", label:"補充教學", sub:"去背・換色・影片示範", items:[
   {id:"tree", t:"樹木去背（色版）", k:"Ctrl/Cmd+點縮圖", p:[50,51]},
+  {id:"recolor", t:"換色處理（色相／飽和度）", k:"Ctrl/Cmd+I", p:[52,53,54,55]},
  ]},
  {id:"hw", label:"回家作業", sub:"暖身練習 1・FLOWER STUDY", items:[
   {id:"hwbrief", t:"作業公告與規格", p:[40,49]},
@@ -288,7 +290,7 @@ const DOWNLOADS = [
  {file:"downloads/portrait-stripes.jpg", name:"去背練習_人像_條紋上衣.jpg", title:"人像：條紋上衣", desc:"淺色背景人像，可練習選取主體、修整髮絲與遮色片。", spec:"JPG・2576 × 1717 px", thumb:"downloads/portrait-stripes-thumb.webp", pages:[], group:"其他去背練習素材"},
  {file:"downloads/portrait-pointing.jpg", name:"去背練習_人像_手指方向.jpg", title:"人像：手指方向", desc:"淺色背景人像，練習選取主體後再換背景或排文字。", spec:"JPG・2576 × 1717 px", thumb:"downloads/portrait-pointing-thumb.webp", pages:[], group:"其他去背練習素材"},
  {file:"downloads/apples-stack.jpg", name:"去背練習_青蘋果_疊放.jpg", title:"青蘋果：疊放", desc:"直式白底素材，適合練習快速選取與陰影保留。", spec:"JPG・1534 × 2576 px", thumb:"downloads/apples-stack-thumb.webp", pages:[], group:"其他去背練習素材"},
- {file:"downloads/apples-three.jpg", name:"去背練習_青蘋果_三顆.jpg", title:"青蘋果：三顆", desc:"方形白底素材，練習物件選取工具與增加／減少範圍。", spec:"JPG・2576 × 2576 px", thumb:"downloads/apples-three-thumb.webp", pages:[], group:"其他去背練習素材"},
+ {file:"downloads/apples-three.jpg", name:"去背練習_青蘋果_三顆.jpg", title:"青蘋果：三顆", desc:"換色處理練習主圖。選取背景與果梗保護起來，再用色相／飽和度把蘋果換色。", spec:"JPG・2576 × 2576 px", thumb:"downloads/apples-three-thumb.webp", pages:[52,53,54,55], group:"換色處理練習素材"},
 ];
 
 const IMG = Array.from({length:PAGE_TITLES.length},(_,i)=>`slides/p-${String(i+1).padStart(2,"0")}.webp`);
