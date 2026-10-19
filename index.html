@@ -137,6 +137,38 @@ figcaption .pg{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 figure.done .frame{outline:3px solid var(--done-line);outline-offset:0}
 figcaption .teach{font-size:12px}
 .fc-r{display:flex;align-items:center;gap:14px;flex:none}
+/* Single-slide stage with left/right paging */
+.stage{position:relative;margin-top:22px}
+.stage figure{margin:0}
+.stage .frame{position:relative;cursor:default;background:#fff}
+.stage .frame img{opacity:0;transition:opacity .18s}
+.stage .frame img.in{opacity:1}
+.zone{position:absolute;top:0;bottom:0;display:block}
+.zl{left:0;width:28%;cursor:w-resize}
+.zr{right:0;width:28%;cursor:e-resize}
+.zc{left:28%;right:28%;cursor:zoom-in}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:46px;height:46px;border-radius:50%;border:0;background:var(--navy);color:#fff;font-size:30px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,30,54,.35);transition:background .15s,transform .15s}
+.arrow span{margin-top:-4px}
+.arrow:hover{background:var(--fill);color:var(--on-fill)}
+.arrow:active{transform:translateY(-50%) scale(.94)}
+.arrow.left{left:-23px}.arrow.right{right:-23px}
+.arrow[disabled]{opacity:0;pointer-events:none}
+.stage-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;margin-top:12px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:9px 14px;cursor:pointer;font-size:14px;justify-self:start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.step.nx{justify-self:end}
+.step small{color:var(--accent);font-size:12px}
+.step:hover{border-color:var(--fill)}
+.step[disabled]{visibility:hidden}
+.stage-mid{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.stage-mid b{font-size:14px;font-weight:500}
+.stage-sub{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:12px}
+.stage-sub .pg{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.chip[aria-current="true"]{background:var(--fill);border-color:var(--fill);color:var(--on-fill);font-weight:500}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin:10px 0 0}
+@media (max-width:820px){
+  .arrow{width:38px;height:38px;font-size:24px}.arrow.left{left:-8px}.arrow.right{right:-8px}
+  .stage-bar{grid-template-columns:1fr 1fr}.stage-mid{grid-column:1/-1;grid-row:1}
+}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -358,22 +390,64 @@ function warm(it){
 }
 nav.addEventListener("pointerover",e=>{const b=e.target.closest(".item"); if(b){const x=byId[b.dataset.id]; if(x&&x.p[0])pre(x.p[0]);}});
 
+let pIdx=0, startLast=false;
 function renderTopic(it){
   if(it.dl) return renderDownloads(it);
   const i=ALL.indexOf(it), prev=ALL[i-1], next=ALL[i+1];
-  const titles=[...new Set(it.p.map(n=>PAGE_TITLES[n-1]))];
+  pIdx = startLast ? it.p.length-1 : 0; startLast=false;
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div>
     <h1>${esc(it.t)}</h1>
-    <div class="meta"><span>${range(it.p)}・共 ${it.p.length} 頁</span><span class="unit-teach">${teachBox(it.p,it.p.length>1?"整個單元已教過":"本頁已教過")}</span>${it.k?`<span>快捷鍵 <span class="kbd">${esc(it.k)}</span></span>`:""}</div>
-    ${it.p.length>1?`<div class="chips">${it.p.map(n=>`<button class="chip" type="button" data-jump="${n}">${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
-    <div class="slides">${it.p.map(n=>`<figure id="s${n}" data-page="${n}"><button class="frame" type="button" data-p="${n}" aria-label="放大第 ${n} 頁"><img src="${IMG[n-1]}" alt="${esc(PAGE_TITLES[n-1])}" ${n===it.p[0]?"":'loading="lazy"'}></button><figcaption><span>${esc(PAGE_TITLES[n-1])}</span><span class="fc-r">${it.p.length>1?teachBox([n],"本頁已教過"):""}<span class="pg">${String(n).padStart(2,"0")} / ${PAGE_TITLES.length}</span></span></figcaption></figure>`).join("")}</div>
+    <div class="meta"><span>${range(it.p)}・共 ${it.p.length} 頁</span>${it.p.length>1?`<span class="unit-teach">${teachBox(it.p,"整個單元已教過")}</span>`:""}${it.k?`<span>快捷鍵 <span class="kbd">${esc(it.k)}</span></span>`:""}</div>
+    ${it.p.length>1?`<div class="chips">${it.p.map((n,k)=>`<button class="chip" type="button" data-k="${k}">${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
+    <div class="stage">
+      <button class="arrow left" id="sPrev" type="button" aria-label="上一頁"><span aria-hidden="true">‹</span></button>
+      <figure id="fig"><div class="frame" id="frame" role="img"><img id="slideImg" alt=""><i class="zone zl" title="上一頁"></i><i class="zone zc" title="點一下放大"></i><i class="zone zr" title="下一頁"></i></div></figure>
+      <button class="arrow right" id="sNext" type="button" aria-label="下一頁"><span aria-hidden="true">›</span></button>
+    </div>
+    <div class="stage-bar">
+      <button type="button" class="step" id="bPrev"></button>
+      <div class="stage-mid"><b id="capT"></b><span class="stage-sub"><span id="capTeach"></span><span class="pg" id="capPg"></span></span></div>
+      <button type="button" class="step nx" id="bNext"></button>
+    </div>
+    <p class="hint">點投影片左右兩側、手機左右滑動，或按 ← → 鍵換頁；點中間放大</p>
     ${dlBox(DOWNLOADS.filter(d=>d.pages.some(n=>it.p.includes(n))),"這個單元會用到的素材")}
     <div class="pager"><button type="button" class="prev" ${prev?`data-id="${prev.id}"`:"disabled"}><small>← 上一個功能</small><b>${prev?esc(prev.t):""}</b></button><button type="button" class="next" ${next?`data-id="${next.id}"`:"disabled"}><small>下一個功能 →</small><b>${next?esc(next.t):""}</b></button></div>`;
-  view.querySelectorAll(".chip").forEach(c=>c.onclick=()=>document.getElementById("s"+c.dataset.jump).scrollIntoView({behavior:"smooth",block:"start"}));
-  view.querySelectorAll(".frame").forEach(f=>f.onclick=()=>openLb(it,+f.dataset.p));
+  view.querySelectorAll(".chip").forEach(c=>c.onclick=()=>showPage(+c.dataset.k));
+  $("#sPrev").onclick=$("#bPrev").onclick=view.querySelector(".zl").onclick=()=>step(-1);
+  $("#sNext").onclick=$("#bNext").onclick=view.querySelector(".zr").onclick=()=>step(1);
+  view.querySelector(".zc").onclick=()=>openLb(it,it.p[pIdx]);
+  let sx=null; const fr=$("#frame");
+  fr.addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
+  fr.addEventListener("touchend",e=>{if(sx===null)return; const dx=e.changedTouches[0].clientX-sx; sx=null; if(Math.abs(dx)>50){step(dx<0?1:-1);}},{passive:true});
   view.querySelectorAll(".pager button[data-id]").forEach(b=>b.onclick=()=>go(b.dataset.id));
   $("#tbTitle").textContent=it.t;
+  showPage(pIdx);
   warm(it);
+}
+function neighbor(d){ const i=ALL.indexOf(cur); let j=i+d; return ALL[j]||null; }
+function step(d){
+  if(!cur||cur.dl)return;
+  const k=pIdx+d;
+  if(k>=0&&k<cur.p.length) return showPage(k);
+  const nb=neighbor(d); if(!nb) return;
+  if(d<0 && nb.p.length) startLast=true;
+  go(nb.id);
+}
+function showPage(k){
+  const it=cur; pIdx=k; const n=it.p[k];
+  const img=$("#slideImg"); img.classList.remove("in"); img.src=IMG[n-1]; img.alt=PAGE_TITLES[n-1];
+  const shown=()=>img.classList.add("in"); if(img.complete&&img.naturalWidth)shown(); else img.onload=shown;
+  $("#fig").dataset.page=n;
+  $("#capT").textContent=PAGE_TITLES[n-1];
+  $("#capTeach").innerHTML=teachBox([n],"本頁已教過");
+  $("#capPg").textContent=(it.p.length>1?`本單元 ${k+1} / ${it.p.length}・`:"")+`第 ${n} / ${PAGE_TITLES.length} 頁`;
+  view.querySelectorAll(".chip").forEach((c,j)=>c.setAttribute("aria-current",j===k?"true":"false"));
+  const pv=k>0?null:neighbor(-1), nx=k<it.p.length-1?null:neighbor(1);
+  $("#bPrev").innerHTML = k>0?`<small>←</small> 上一頁`:(pv?`<small>← 上一單元</small> ${esc(pv.t)}`:"");
+  $("#bNext").innerHTML = k<it.p.length-1?`下一頁 <small>→</small>`:(nx?`<small>下一單元 →</small> ${esc(nx.t)}`:"");
+  $("#bPrev").disabled=!(k>0||pv); $("#bNext").disabled=!(k<it.p.length-1||nx);
+  $("#sPrev").disabled=$("#bPrev").disabled; $("#sNext").disabled=$("#bNext").disabled;
+  [it.p[k+1],it.p[k-1]].forEach(m=>m&&pre(m));
   markAll();
 }
 function go(id,push=true){
@@ -388,17 +462,18 @@ function go(id,push=true){
 // Lightbox
 let lbList=[], lbI=0;
 function openLb(it,n){lbList=it.p; lbI=it.p.indexOf(n); showLb(); $("#lb").hidden=false}
+function closeLb(){ $("#lb").hidden=true; if(cur&&!cur.dl&&lbList===cur.p&&lbI!==pIdx) showPage(lbI); }
 function showLb(){const n=lbList[lbI]; $("#lbImg").src=IMG[n-1]; $("#lbCap").textContent=`${n}・${PAGE_TITLES[n-1]}`; $("#lbPrev").disabled=lbI===0; $("#lbNext").disabled=lbI===lbList.length-1}
-$("#lbClose").onclick=()=>$("#lb").hidden=true;
-$("#lb").onclick=e=>{if(e.target.id==="lb")$("#lb").hidden=true};
+$("#lbClose").onclick=closeLb;
+$("#lb").onclick=e=>{if(e.target.id==="lb")closeLb()};
 $("#lbPrev").onclick=()=>{if(lbI>0){lbI--;showLb()}};
 $("#lbNext").onclick=()=>{if(lbI<lbList.length-1){lbI++;showLb()}};
 document.addEventListener("keydown",e=>{
   if(e.target.tagName==="INPUT")return;
-  if(!$("#lb").hidden){ if(e.key==="Escape")$("#lb").hidden=true; if(e.key==="ArrowLeft")$("#lbPrev").click(); if(e.key==="ArrowRight")$("#lbNext").click(); return;}
-  const i=cur?ALL.indexOf(cur):-1;
-  if(e.key==="ArrowRight"&&i<ALL.length-1)go(ALL[i+1].id);
-  if(e.key==="ArrowLeft"){ if(i>0)go(ALL[i-1].id); else if(i===0)go(null);}
+  if(!$("#lb").hidden){ if(e.key==="Escape")closeLb(); if(e.key==="ArrowLeft")$("#lbPrev").click(); if(e.key==="ArrowRight")$("#lbNext").click(); return;}
+  if(!cur){ if(e.key==="ArrowRight")go(ALL[0].id); return; }
+  if(e.key==="ArrowRight"){e.preventDefault(); if(cur.dl){} else step(1);}
+  if(e.key==="ArrowLeft"){e.preventDefault(); if(cur.dl){startLast=true;go(ALL[ALL.indexOf(cur)-1].id);} else if(pIdx===0&&ALL.indexOf(cur)===0) go(null); else step(-1);}
 });
 $("#q").addEventListener("input",e=>filter(e.target.value));
 $("#home").onclick=()=>go(null);
