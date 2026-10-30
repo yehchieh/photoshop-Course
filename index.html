@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Photoshop 第一堂課</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="description" content="Photoshop 第一堂課教學講義：點選功能即可查看投影片與操作影片。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23001e36'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' text-anchor='middle' fill='%2331a8ff'%3EPs%3C/text%3E%3C/svg%3E">
 <style>
 /* Layout: artboard workspace — left panel = tool index (like Photoshop's tool panel), right = slides on a canvas */
 :root{
@@ -12,8 +13,8 @@
   --canvas:#e9eff6; --shadow:0 1px 2px rgba(0,30,54,.08),0 6px 20px rgba(0,30,54,.08);
   --done:#e8f5ff; --done-line:#7cc4ff;
   --navy:#001e36; --navy-2:#062c4d; --navy-line:#123a5e; --navy-ink:#e4effa; --navy-muted:#8aa5bf;
-  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --f-body:"PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+  --f-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --side:300px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -175,6 +176,24 @@ figcaption .teach{font-size:12px}
 .frame.is-video .zone{display:none}
 .yt-link{font-size:12px;font-weight:400;color:var(--accent);margin-left:8px;white-space:nowrap}
 .dl+.dl{margin-top:16px}
+.help-thumb{aspect-ratio:16/9;display:grid;place-items:center;background:var(--navy);color:var(--fill);border-bottom:1px solid var(--line)}
+.help-line{margin:12px 0 0;font-size:13px;color:var(--muted)}
+.help-line a,.img-err a{color:var(--accent);font-weight:500}
+.img-err{position:absolute;inset:0;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;text-align:center;padding:24px;background:var(--panel);color:var(--ink);font-size:14px;z-index:1}
+.img-err span{max-width:46ch;color:var(--muted)}
+.hp{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+.hp h2{font-size:17px;margin:0 0 10px}
+.hp-list{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;max-width:72ch}
+.hp-list b{font-weight:600}
+.hp-steps{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:12px;max-width:72ch}
+.hp-steps li b{display:block;font-weight:600}
+.hp-steps li span{color:var(--muted);font-size:14px}
+.hp code{font-family:var(--f-mono);font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px;word-break:break-all}
+.url-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.copy{border:0;background:var(--fill);color:var(--on-fill);border-radius:6px;padding:4px 12px;font-size:13px;font-weight:500;cursor:pointer}
+.hp-warn{margin:14px 0 0;padding:10px 14px;border-radius:8px;background:var(--accent-soft);font-size:14px}
+.hp-t summary{cursor:pointer;font-weight:600;font-size:16px}
+.hp-t p{color:var(--muted);font-size:14px;max-width:72ch}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -281,6 +300,9 @@ const GROUPS = [
   {id:"hw8", t:"08 繳交前檢查與輸出", p:[48]},
   {id:"downloads", t:"補充資料下載", p:[], dl:true},
  ]},
+ {id:"info", label:"說明", sub:"網頁打不開時", items:[
+  {id:"help", t:"資安與防毒說明", p:[], help:true},
+ ]},
 ];
 const DOWNLOADS = [
  {file:"downloads/flower-practice.png", name:"Photoshop_第一堂_花卉練習.png", title:"花卉練習照片", desc:"課堂與作業使用的素材照片。用「檔案 → 置入嵌入物件」放進 1080 × 1080 文件。", spec:"PNG・1536 × 1024 px", thumb:"downloads/flower-thumb.webp", pages:[5,15,25,26,38,41], group:"課堂與作業素材"},
@@ -329,6 +351,7 @@ function card(it){
   return `<div class="card-w" data-unit="${it.p.join(",")}">${inner}${teachBox(it.p,it.p.length>1?"整個單元已教過":"已教過")}</div>`;
 }
 function cardInner(it){
+  if(it.help) return `<button class="card" type="button" data-id="${it.id}"><div class="help-thumb" aria-hidden="true"><svg viewBox="0 0 48 48" width="56" height="56"><path d="M24 4 8 10v12c0 10 7 18 16 22 9-4 16-12 16-22V10L24 4Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="m17 24 5 5 9-10" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cb"><span class="ct">${esc(it.t)}</span><span class="cm"><span>防毒擋住時看這裡</span></span></div></button>`;
   if(it.dl) return `<button class="card" type="button" data-id="${it.id}"><img src="${DOWNLOADS[0].thumb}" alt="" loading="lazy"><div class="cb"><span class="ct">${esc(it.t)}</span><span class="cm"><span>${DOWNLOADS.length} 個檔案</span><span class="kbd">下載</span></span></div></button>`;
   return `<button class="card" type="button" data-id="${it.id}"><img src="${TH[it.p[0]-1]}" alt="" loading="lazy"><div class="cb"><span class="ct">${esc(it.t)}</span><span class="cm"><span>${range(it.p)}</span>${it.k?`<span class="kbd">${esc(it.k)}</span>`:""}</span></div></button>`;
 }
@@ -336,7 +359,7 @@ function renderHome(){
   view.innerHTML = `<div class="hero"><div class="eyebrow">Adobe Photoshop ・ 多媒體設計</div>
     <h1>Photoshop 第一堂課：從像素、圖層到 FLOWER STUDY 海報</h1>
     <p>點選任一功能，直接看那一部分的教學投影片。左側目錄可隨時切換，也能用搜尋找工具名稱或快捷鍵。</p>
-    <div class="how"><span>點投影片可放大</span><span>← → 鍵切換功能</span><span>共 ${PAGE_TITLES.length} 頁・${ALL.length} 個主題</span></div></div>
+    <div class="how"><span>點投影片可放大</span><span>← → 鍵切換功能</span><span>共 ${PAGE_TITLES.length} 頁・${ALL.length} 個主題</span></div><p class="help-line">網頁打不開、顯示不安全或圖片出不來？看 <a href="#help">資安與防毒說明</a>。</p></div>
     ${GROUPS.map(g=>`<section class="sec"><div class="sec-h"><h2>${esc(g.label)}</h2><small>${esc(g.sub)}</small></div><div class="grid">${g.items.map(card).join("")}</div></section>`).join("")}`;
   view.querySelectorAll(".card").forEach(c=>c.onclick=()=>go(c.dataset.id));
   $("#tbTitle").textContent="Photoshop 第一堂課";
@@ -389,6 +412,56 @@ function dlBox(list,head){
   if(!list.length) return "";
   return `<section class="dl"><h2>${esc(head)}</h2><div class="dl-grid">${list.map(d=>`<article class="dl-item"><img src="${d.thumb}" alt="" loading="lazy"><div class="dl-b"><b>${esc(d.title)}</b><p>${esc(d.desc)}</p><small>${esc(d.spec)}</small><a class="dl-btn" href="${encodeURI(d.file)}" download="${esc(d.name)}">下載檔案</a></div></article>`).join("")}</div></section>`;
 }
+
+function renderHelp(it){
+  const url=location.origin+location.pathname;
+  const host=location.hostname||"yehchieh.github.io";
+  view.innerHTML=`<div class="eyebrow">${esc(it.g.label)}</div><h1>網頁打不開？資安與防毒說明</h1>
+  <div class="meta"><span>給學生：照下面步驟排除；給老師：最下方有申請網址評等的方式</span></div>
+  <section class="hp">
+    <h2>這個網頁做了什麼</h2>
+    <ul class="hp-list">
+      <li><b>純教學網頁</b>：只有投影片圖片、文字與練習素材，放在 GitHub Pages，全程使用 HTTPS 加密連線。</li>
+      <li><b>不用登入、不收資料</b>：沒有帳號、沒有表單，不會要求輸入任何個人資料。</li>
+      <li><b>進度只存在你的電腦</b>：「已教過」勾選只存在這個瀏覽器裡，不會上傳到任何地方。</li>
+      <li><b>只連到兩個地方</b>：本網站（${esc(host)}），以及播放示範影片用的 YouTube 隱私加強模式（youtube-nocookie.com）。</li>
+      <li><b>下載檔都是圖片</b>：補充資料只有 JPG／PNG，沒有執行檔、安裝檔或壓縮檔。</li>
+    </ul>
+  </section>
+  <section class="hp">
+    <h2>為什麼防毒會擋</h2>
+    <ul class="hp-list">
+      <li>網站很新，防毒廠商還沒幫它評等。網頁防護設定比較嚴格時，會先擋「未評等」的網站。</li>
+      <li>github.io 是免費的公開空間，偶爾有人拿來放可疑網頁，所以有些防毒對整個網域比較保守。</li>
+      <li>學校或公司的網路防火牆，也可能擋 github.io 或 YouTube。</li>
+    </ul>
+  </section>
+  <section class="hp">
+    <h2>學生排除步驟</h2>
+    <ol class="hp-steps">
+      <li><b>確認網址正確</b><span>開頭要是 https，大小寫也要一樣：</span>
+        <div class="url-row"><code id="siteUrl">${esc(url)}</code><button type="button" class="copy" id="copyUrl">複製網址</button></div></li>
+      <li><b>看到警告頁時</b><span>先確認警告上寫的網址就是上面這個。瀏覽器的警告頁通常有「詳細資訊」或「仍要前往」，確認網址無誤後再繼續。</span></li>
+      <li><b>把網站加入防毒的信任清單</b><span>打開防毒軟體，在「網頁防護」或「網路防護」的設定裡，找「信任的網站」「例外」「允許清單」或「白名單」，加入 <code>${esc(host)}</code>。各家防毒的名稱不同，找這幾個關鍵字就對了。</span></li>
+      <li><b>換個環境試試</b><span>換另一個瀏覽器，或用手機網路（4G／5G）開。手機網路打得開、學校網路打不開，就是學校網路擋的，請告訴老師。</span></li>
+      <li><b>影片看不了</b><span>按影片下方的「在 YouTube 開啟」，直接到 YouTube 觀看。</span></li>
+      <li><b>還是不行</b><span>把警告畫面截圖（要看得到防毒軟體名稱和網址）傳給老師。</span></li>
+    </ol>
+    <p class="hp-warn">只把這個網址加入信任清單就好，<b>不要為了開網頁而把整個防毒關掉</b>。</p>
+  </section>
+  <details class="hp hp-t"><summary>給老師：請防毒廠商重新評等網址</summary>
+    <p>把網址送到常見的網址評等服務，評等完成後，大部分防毒就不會再擋。通常需要幾天時間。</p>
+    <ul class="hp-list">
+      <li>趨勢科技 Site Safety Center：<code>global.sitesafety.trendmicro.com</code>（台灣學校與家用電腦常見 PC-cillin）</li>
+      <li>Norton Safe Web：<code>safeweb.norton.com</code></li>
+      <li>Google 安全瀏覽網站狀態查詢：<code>transparencyreport.google.com/safe-browsing/search</code></li>
+    </ul>
+    <p>學校電腦教室若統一擋網址，請資訊組把 <code>${esc(host)}</code> 與 <code>youtube-nocookie.com</code> 加入允許清單。</p>
+  </details>`;
+  $("#copyUrl").onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(url);b.textContent="已複製";}catch(err){const r=document.createRange();r.selectNodeContents($("#siteUrl"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="已選取，請按 Ctrl/Cmd+C";}setTimeout(()=>b.textContent="複製網址",2500);};
+  $("#tbTitle").textContent="資安與防毒說明";
+  markAll();
+}
 function renderDownloads(it){
   const i=ALL.indexOf(it), prev=ALL[i-1];
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div><h1>補充資料下載</h1>
@@ -412,6 +485,7 @@ nav.addEventListener("pointerover",e=>{const b=e.target.closest(".item"); if(b){
 let pIdx=0, startLast=false;
 function renderTopic(it){
   if(it.dl) return renderDownloads(it);
+  if(it.help) return renderHelp(it);
   const i=ALL.indexOf(it), prev=ALL[i-1], next=ALL[i+1];
   pIdx = startLast ? it.p.length-1 : 0; startLast=false;
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div>
@@ -420,7 +494,7 @@ function renderTopic(it){
     ${it.p.length>1?`<div class="chips">${it.p.map((n,k)=>`<button class="chip" type="button" data-k="${k}">${VIDEOS[n]?"▶ ":""}${n}・${esc(PAGE_TITLES[n-1])}</button>`).join("")}</div>`:""}
     <div class="stage">
       <button class="arrow left" id="sPrev" type="button" aria-label="上一頁"><span aria-hidden="true">‹</span></button>
-      <figure id="fig"><div class="frame" id="frame" role="img"><img id="slideImg" alt=""><div class="vid" id="vid" hidden></div><i class="zone zl" title="上一頁"></i><i class="zone zc" title="點一下放大"></i><i class="zone zr" title="下一頁"></i></div></figure>
+      <figure id="fig"><div class="frame" id="frame" role="img"><img id="slideImg" alt=""><div class="vid" id="vid" hidden></div><div class="img-err" id="imgErr" hidden><b>投影片圖片沒有載入</b><span>可能是網路不穩，或防毒、學校網路擋住了圖片。先重新整理一次；還是不行請看 <a href="#help">資安與防毒說明</a>。</span></div><i class="zone zl" title="上一頁"></i><i class="zone zc" title="點一下放大"></i><i class="zone zr" title="下一頁"></i></div></figure>
       <button class="arrow right" id="sNext" type="button" aria-label="下一頁"><span aria-hidden="true">›</span></button>
     </div>
     <div class="stage-bar">
@@ -445,7 +519,7 @@ function renderTopic(it){
 }
 function neighbor(d){ const i=ALL.indexOf(cur); let j=i+d; return ALL[j]||null; }
 function step(d){
-  if(!cur||cur.dl)return;
+  if(!cur||cur.dl||cur.help)return;
   const k=pIdx+d;
   if(k>=0&&k<cur.p.length) return showPage(k);
   const nb=neighbor(d); if(!nb) return;
@@ -458,11 +532,13 @@ function showPage(k){
   $("#frame").classList.toggle("is-video",!!v);
   if(v){
     img.hidden=true; vid.hidden=false;
-    vid.innerHTML=`<iframe src="https://www.youtube.com/embed/${v.id}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    vid.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
   } else {
     vid.innerHTML=""; vid.hidden=true; img.hidden=false;
     img.classList.remove("in"); img.src=IMG[n-1]; img.alt=PAGE_TITLES[n-1];
+    $("#imgErr").hidden=true;
     const shown=()=>img.classList.add("in"); if(img.complete&&img.naturalWidth)shown(); else img.onload=shown;
+    img.onerror=()=>{ $("#imgErr").hidden=false; };
   }
   $("#fig").dataset.page=n;
   $("#capT").innerHTML=esc(PAGE_TITLES[n-1])+(v?` <a class="yt-link" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a>`:"");
@@ -496,7 +572,7 @@ $("#lb").onclick=e=>{if(e.target.id==="lb")closeLb()};
 $("#lbPrev").onclick=()=>{if(lbI>0){lbI--;showLb()}};
 $("#lbNext").onclick=()=>{if(lbI<lbList.length-1){lbI++;showLb()}};
 document.addEventListener("keydown",e=>{
-  if(e.target.tagName==="INPUT")return;
+  if(e.target.tagName==="INPUT"&&e.target.type!=="checkbox")return;
   if(!$("#lb").hidden){ if(e.key==="Escape")closeLb(); if(e.key==="ArrowLeft")$("#lbPrev").click(); if(e.key==="ArrowRight")$("#lbNext").click(); return;}
   if(!cur){ if(e.key==="ArrowRight")go(ALL[0].id); return; }
   if(e.key==="ArrowRight"){e.preventDefault(); if(cur.dl){} else step(1);}
