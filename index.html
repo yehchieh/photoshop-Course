@@ -194,6 +194,15 @@ figcaption .teach{font-size:12px}
 .hp-warn{margin:14px 0 0;padding:10px 14px;border-radius:8px;background:var(--accent-soft);font-size:14px}
 .hp-t summary{cursor:pointer;font-weight:600;font-size:16px}
 .hp-t p{color:var(--muted);font-size:14px;max-width:72ch}
+.cp{margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.cp-h{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.cp-h h2{font-size:16px;margin:0}
+.cp-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.cp-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;min-width:0}
+.cp-t{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;min-width:0;overflow-wrap:anywhere;user-select:all}
+.cp-b{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer}
+.cp-b:hover{border-color:var(--fill)}
+.cp-n{margin:10px 0 0;font-size:12px;color:var(--muted)}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -254,7 +263,8 @@ const PAGE_TITLES = [
 "PS 換色處理：選取與遮色片、色相／飽和度","換色步驟 1：選取不換色範圍，建立遮色片","換色步驟 2：調整色相／飽和度","影片：換色處理操作示範",
 "PS 圖像效果處理：臨界值、加亮／加深與選取顏色範圍","效果步驟 1：去背並獨立圖層","效果步驟 2：臨界值與黑白面積","效果步驟 3：加亮／加深修整細節","效果步驟 4：選取顏色範圍","效果步驟 5：空白圖層填色","效果步驟 6：Illustrator 影像描圖","影片：圖像效果處理操作示範",
 "PS 玻璃反射：高斯模糊、路徑模糊、曝光度與遮色片","玻璃反射步驟 1：去背並獨立圖層","玻璃反射步驟 2：複製物件，放到下層","玻璃反射步驟 3：高斯模糊","玻璃反射步驟 4：路徑模糊","玻璃反射步驟 5：曝光度與遮色片","影片：玻璃反射操作示範",
-"PS 包裝合成：矩形工具、智慧型物件、彎曲變形與混合選項","包裝合成步驟 1：矩形與智慧型物件","包裝合成步驟 2：彎曲變形貼合包裝","包裝合成步驟 3：置入設計並儲存","包裝合成步驟 4：色彩增值與混合選項","包裝合成步驟 5–6：獨立主體與剪裁遮色片","影片：包裝合成操作示範"];
+"PS 包裝合成：矩形工具、智慧型物件、彎曲變形與混合選項","包裝合成步驟 1：矩形與智慧型物件","包裝合成步驟 2：彎曲變形貼合包裝","包裝合成步驟 3：置入設計並儲存","包裝合成步驟 4：色彩增值與混合選項","包裝合成步驟 5–6：獨立主體與剪裁遮色片","影片：包裝合成操作示範",
+"練習作業 2：護手霜包裝海報","練習作業 2：使用工具與補充技法","作業 2 步驟 1：文件、背景與去背","作業 2 步驟 2：包裝設計與彎曲變形","作業 2 步驟 3：材質混合與範圍限制","作業 2 步驟 4：環繞文字與前後遮擋","作業 2 步驟 5：資訊排版與陰影","作業 2：文字素材與快捷鍵","回家作業公告：練習作業 2"];
 const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
@@ -304,9 +314,19 @@ const GROUPS = [
   {id:"hw6", t:"06 變形與複製花影", p:[46]},
   {id:"hw7", t:"07 文字與前後層次", p:[47]},
   {id:"hw8", t:"08 繳交前檢查與輸出", p:[48]},
-  {id:"downloads", t:"補充資料下載", p:[], dl:true},
  ]},
- {id:"info", label:"說明", sub:"網頁打不開時", items:[
+ {id:"hw2", label:"回家作業 2", sub:"練習作業 2・護手霜包裝海報", copy:["HAND CREAM","IRIS EXTRACT","50 mL","Inspired by nature. Made for your hands.","Nourish your skin, soften your day.","DAILY MOISTURE"], items:[
+  {id:"hw2brief", t:"作業公告與成品參考", p:[78,86]},
+  {id:"hw2tools", t:"使用工具與補充技法", p:[79]},
+  {id:"hw2s1", t:"步驟 1：文件、背景與去背", p:[80]},
+  {id:"hw2s2", t:"步驟 2：包裝設計與彎曲變形", k:"Ctrl/Cmd+T", p:[81]},
+  {id:"hw2s3", t:"步驟 3：材質混合與範圍限制", p:[82]},
+  {id:"hw2s4", t:"步驟 4：環繞文字與前後遮擋", k:"P / T", p:[83]},
+  {id:"hw2s5", t:"步驟 5：資訊排版與陰影", p:[84]},
+  {id:"hw2text", t:"文字素材與快捷鍵", p:[85]},
+ ]},
+ {id:"info", label:"資源與說明", sub:"下載・網頁打不開時", items:[
+  {id:"downloads", t:"補充資料下載", p:[], dl:true},
   {id:"help", t:"資安與防毒說明", p:[], help:true},
  ]},
 ];
@@ -322,9 +342,13 @@ const DOWNLOADS = [
  {file:"downloads/fish-betta.jpg", name:"圖像效果_鬥魚_黑底.jpg", title:"鬥魚（黑底）", desc:"圖像效果處理練習主圖。魚鰭線條多，適合用臨界值與加亮／加深做出版畫感。", spec:"JPG・1721 × 2576 px", thumb:"downloads/fish-betta-thumb.webp", pages:[56,57,58,59,60,61,62,63], group:"圖像效果處理練習素材"},
  {file:"downloads/fish-tetra.jpg", name:"圖像效果_燈魚_白底.jpg", title:"燈魚（白底）", desc:"白底素材，練習選取主體、臨界值與選取顏色範圍。", spec:"JPG・2576 × 1923 px", thumb:"downloads/fish-tetra-thumb.webp", pages:[56,57,58,59,60,61,62,63], group:"圖像效果處理練習素材"},
  {file:"downloads/glass-bottle.jpg", name:"玻璃反射_範例圖片.jpg", title:"玻璃瓶範例圖片", desc:"玻璃反射練習用圖。先把玻璃瓶去背，再用高斯模糊與路徑模糊做出反射拖影。", spec:"JPG・1717 × 2576 px", thumb:"downloads/glass-bottle-thumb.webp", pages:[64,65,66,67,68,69,70], group:"玻璃反射練習素材"},
- {file:"downloads/orchid.jpg", name:"包裝合成_素材_蘭花.jpg", title:"蘭花", desc:"包裝合成素材。放進「包裝設計」智慧型物件，再用彎曲變形貼合包裝。", spec:"JPG・1812 × 2576 px", thumb:"downloads/orchid-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
+ {file:"downloads/orchid.jpg", name:"包裝合成_素材_蘭花.jpg", title:"蘭花", desc:"包裝合成素材。放進「包裝設計」智慧型物件，再用彎曲變形貼合包裝。", spec:"JPG・1812 × 2576 px", thumb:"downloads/orchid-thumb.webp", pages:[71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86], group:"包裝合成練習素材"},
  {file:"downloads/betta-red.jpg", name:"包裝合成_素材_紅色鬥魚.jpg", title:"紅色鬥魚（黑底）", desc:"包裝合成素材。黑底圖片搭配色彩增值，黑色部分會自然消失。", spec:"JPG・1717 × 2576 px", thumb:"downloads/betta-red-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
  {file:"downloads/glass-bottle.jpg", name:"包裝合成_素材_玻璃瓶.jpg", title:"玻璃瓶與滴管", desc:"包裝合成素材，也是玻璃反射的練習圖。可當包裝上的設計圖案。", spec:"JPG・1717 × 2576 px", thumb:"downloads/glass-bottle-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
+ {file:"downloads/hw2-example.jpg", name:"練習作業2_護手霜海報_範例.jpg", title:"作業 2 完成範例", desc:"護手霜包裝海報參考圖。可自行調整配色與構圖，學號姓名換成自己的。", spec:"JPG・1080 × 1080 px", thumb:"downloads/hw2-example-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
+ {file:"downloads/tube-silver-pink.jpg", name:"練習作業2_軟管_銀色粉底.jpg", title:"銀色軟管（粉色背景）", desc:"包裝主體素材，範例使用的就是這張。", spec:"JPG・1719 × 2576 px", thumb:"downloads/tube-silver-pink-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
+ {file:"downloads/tube-white.jpg", name:"練習作業2_軟管_白色.jpg", title:"白色軟管", desc:"包裝主體素材，可換成其他造型的軟管練習。", spec:"JPG・1717 × 2576 px", thumb:"downloads/tube-white-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
+ {file:"downloads/tube-silver-drops.jpg", name:"練習作業2_軟管_銀色水珠.jpg", title:"銀色軟管（水珠）", desc:"包裝主體素材，表面有水珠，適合練習色彩增值與混合選項保留質感。", spec:"JPG・1719 × 2576 px", thumb:"downloads/tube-silver-drops-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
 ];
 
 const IMG = Array.from({length:PAGE_TITLES.length},(_,i)=>`slides/p-${String(i+1).padStart(2,"0")}.webp`);
@@ -474,6 +498,22 @@ function renderHelp(it){
   $("#tbTitle").textContent="資安與防毒說明";
   markAll();
 }
+
+function copyBox(list){
+  return `<section class="cp"><div class="cp-h"><h2>可複製的文字</h2><button type="button" class="copy" data-copyall="1">全部複製</button></div>
+  <ul class="cp-list">${list.map((s,i)=>`<li><span class="cp-t" id="cpt${i}">${esc(s)}</span><button type="button" class="cp-b" data-copy="${i}">複製</button></li>`).join("")}</ul>
+  <p class="cp-n">複製後在 Photoshop 用文字工具 T 點一下，再按 Ctrl/Cmd+V 貼上。</p></section>`;
+}
+async function copyText(txt,btn,selEl){
+  const old=btn.textContent;
+  try{await navigator.clipboard.writeText(txt);btn.textContent="已複製";}
+  catch(e){ if(selEl){const r=document.createRange();r.selectNodeContents(selEl);const s=getSelection();s.removeAllRanges();s.addRange(r);} btn.textContent="已選取，按 Ctrl/Cmd+C"; }
+  setTimeout(()=>btn.textContent=old,1800);
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-copy]"); if(b&&cur&&cur.g.copy){const i=+b.dataset.copy; copyText(cur.g.copy[i],b,document.getElementById("cpt"+i)); return;}
+  const a=e.target.closest("[data-copyall]"); if(a&&cur&&cur.g.copy){copyText(cur.g.copy.join("\n"),a,document.querySelector(".cp-list"));}
+});
 function renderDownloads(it){
   const i=ALL.indexOf(it), prev=ALL[i-1];
   view.innerHTML = `<div class="eyebrow">${esc(it.g.label)}</div><h1>補充資料下載</h1>
@@ -515,6 +555,7 @@ function renderTopic(it){
       <button type="button" class="step nx" id="bNext"></button>
     </div>
     <p class="hint">點投影片左右兩側、手機左右滑動，或按 ← → 鍵換頁；點中間放大</p>
+    ${it.g.copy?copyBox(it.g.copy):""}
     ${dlBox(DOWNLOADS.filter(d=>d.pages.some(n=>it.p.includes(n))),"這個單元會用到的素材")}
     <div class="pager"><button type="button" class="prev" ${prev?`data-id="${prev.id}"`:"disabled"}><small>← 上一個功能</small><b>${prev?esc(prev.t):""}</b></button><button type="button" class="next" ${next?`data-id="${next.id}"`:"disabled"}><small>下一個功能 →</small><b>${next?esc(next.t):""}</b></button></div>`;
   view.querySelectorAll(".chip").forEach(c=>c.onclick=()=>showPage(+c.dataset.k));
