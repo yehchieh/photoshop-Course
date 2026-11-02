@@ -264,8 +264,9 @@ const PAGE_TITLES = [
 "PS 圖像效果處理：臨界值、加亮／加深與選取顏色範圍","效果步驟 1：去背並獨立圖層","效果步驟 2：臨界值與黑白面積","效果步驟 3：加亮／加深修整細節","效果步驟 4：選取顏色範圍","效果步驟 5：空白圖層填色","效果步驟 6：Illustrator 影像描圖","影片：圖像效果處理操作示範",
 "PS 玻璃反射：高斯模糊、路徑模糊、曝光度與遮色片","玻璃反射步驟 1：去背並獨立圖層","玻璃反射步驟 2：複製物件，放到下層","玻璃反射步驟 3：高斯模糊","玻璃反射步驟 4：路徑模糊","玻璃反射步驟 5：曝光度與遮色片","影片：玻璃反射操作示範",
 "PS 包裝合成：矩形工具、智慧型物件、彎曲變形與混合選項","包裝合成步驟 1：矩形與智慧型物件","包裝合成步驟 2：彎曲變形貼合包裝","包裝合成步驟 3：置入設計並儲存","包裝合成步驟 4：色彩增值與混合選項","包裝合成步驟 5–6：獨立主體與剪裁遮色片","影片：包裝合成操作示範",
-"練習作業 2：護手霜包裝海報","練習作業 2：使用工具與補充技法","作業 2 步驟 1：文件、背景與去背","作業 2 步驟 2：包裝設計與彎曲變形","作業 2 步驟 3：材質混合與範圍限制","作業 2 步驟 4：環繞文字與前後遮擋","作業 2 步驟 5：資訊排版與陰影","作業 2：文字素材與快捷鍵","回家作業公告：練習作業 2"];
-const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
+"練習作業 2：護手霜包裝海報","練習作業 2：使用工具與補充技法","作業 2 步驟 1：文件、背景與去背","作業 2 步驟 2：包裝設計與彎曲變形","作業 2 步驟 3：材質混合與範圍限制","作業 2 步驟 4：環繞文字與前後遮擋","作業 2 步驟 5：資訊排版與陰影","作業 2：文字素材與快捷鍵","回家作業公告：練習作業 2",
+"PS 立體環繞文字：文字變形、圓柱體彎曲與圖層前後關係","環繞文字步驟 1：新增文字與準備圖層","環繞文字步驟 2：彎曲變形與圓柱體","環繞文字步驟 3：複製文字，再調整彎曲","環繞文字：圖層順序（前方文字、產品、後方文字）","影片：立體環繞文字操作示範"];
+const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 92:{id:"C7B0KAhCJI4", title:"PS-立體環繞文字（文字變形、文字彎曲、圖層概念）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
   {id:"intro", t:"課程概覽與操作順序", p:[1,2,3]},
@@ -297,12 +298,13 @@ const GROUPS = [
   {id:"practice", t:"25 分鐘練習：FLOWER STUDY", p:[38]},
   {id:"keys", t:"常用快捷鍵", p:[39]},
  ]},
- {id:"extra", label:"補充教學", sub:"去背・換色・效果・反射・包裝", items:[
+ {id:"extra", label:"補充教學", sub:"去背・換色・效果・合成", items:[
   {id:"tree", t:"樹木去背（色版）", k:"Ctrl/Cmd+點縮圖", p:[50,51]},
   {id:"recolor", t:"換色處理（色相／飽和度）", k:"Ctrl/Cmd+I", p:[52,53,54,55]},
   {id:"effects", t:"圖像效果處理（臨界值）", k:"O / Ctrl/Cmd+J", p:[56,57,58,59,60,61,62,63]},
   {id:"glass", t:"玻璃反射（模糊與曝光度）", k:"Ctrl/Cmd+J", p:[64,65,66,67,68,69,70]},
   {id:"package", t:"包裝合成（智慧型物件與彎曲）", k:"U / Ctrl/Cmd+T", p:[71,72,73,74,75,76,77]},
+  {id:"wraptext", t:"立體環繞文字（彎曲與圖層）", k:"T / Ctrl/Cmd+J", p:[87,88,89,90,91,92]},
  ]},
  {id:"hw", label:"回家作業", sub:"暖身練習 1・FLOWER STUDY", items:[
   {id:"hwbrief", t:"作業公告與規格", p:[40,49]},
@@ -346,7 +348,7 @@ const DOWNLOADS = [
  {file:"downloads/betta-red.jpg", name:"包裝合成_素材_紅色鬥魚.jpg", title:"紅色鬥魚（黑底）", desc:"包裝合成素材。黑底圖片搭配色彩增值，黑色部分會自然消失。", spec:"JPG・1717 × 2576 px", thumb:"downloads/betta-red-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
  {file:"downloads/glass-bottle.jpg", name:"包裝合成_素材_玻璃瓶.jpg", title:"玻璃瓶與滴管", desc:"包裝合成素材，也是玻璃反射的練習圖。可當包裝上的設計圖案。", spec:"JPG・1717 × 2576 px", thumb:"downloads/glass-bottle-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
  {file:"downloads/hw2-example.jpg", name:"練習作業2_護手霜海報_範例.jpg", title:"作業 2 完成範例", desc:"護手霜包裝海報參考圖。可自行調整配色與構圖，學號姓名換成自己的。", spec:"JPG・1080 × 1080 px", thumb:"downloads/hw2-example-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
- {file:"downloads/tube-silver-pink.jpg", name:"練習作業2_軟管_銀色粉底.jpg", title:"銀色軟管（粉色背景）", desc:"包裝主體素材，範例使用的就是這張。", spec:"JPG・1719 × 2576 px", thumb:"downloads/tube-silver-pink-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
+ {file:"downloads/tube-silver-pink.jpg", name:"練習作業2_軟管_銀色粉底.jpg", title:"銀色軟管（粉色背景）", desc:"包裝主體素材，範例使用的就是這張。", spec:"JPG・1719 × 2576 px", thumb:"downloads/tube-silver-pink-thumb.webp", pages:[78,79,80,81,82,83,84,85,86,87,88,89,90,91,92], group:"練習作業 2 素材"},
  {file:"downloads/tube-white.jpg", name:"練習作業2_軟管_白色.jpg", title:"白色軟管", desc:"包裝主體素材，可換成其他造型的軟管練習。", spec:"JPG・1717 × 2576 px", thumb:"downloads/tube-white-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
  {file:"downloads/tube-silver-drops.jpg", name:"練習作業2_軟管_銀色水珠.jpg", title:"銀色軟管（水珠）", desc:"包裝主體素材，表面有水珠，適合練習色彩增值與混合選項保留質感。", spec:"JPG・1719 × 2576 px", thumb:"downloads/tube-silver-drops-thumb.webp", pages:[78,79,80,81,82,83,84,85,86], group:"練習作業 2 素材"},
 ];
