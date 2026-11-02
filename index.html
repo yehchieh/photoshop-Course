@@ -253,8 +253,9 @@ const PAGE_TITLES = [
 "樹木去背：色版、色階、曲線與遮色片","影片：樹木去背操作示範",
 "PS 換色處理：選取與遮色片、色相／飽和度","換色步驟 1：選取不換色範圍，建立遮色片","換色步驟 2：調整色相／飽和度","影片：換色處理操作示範",
 "PS 圖像效果處理：臨界值、加亮／加深與選取顏色範圍","效果步驟 1：去背並獨立圖層","效果步驟 2：臨界值與黑白面積","效果步驟 3：加亮／加深修整細節","效果步驟 4：選取顏色範圍","效果步驟 5：空白圖層填色","效果步驟 6：Illustrator 影像描圖","影片：圖像效果處理操作示範",
-"PS 玻璃反射：高斯模糊、路徑模糊、曝光度與遮色片","玻璃反射步驟 1：去背並獨立圖層","玻璃反射步驟 2：複製物件，放到下層","玻璃反射步驟 3：高斯模糊","玻璃反射步驟 4：路徑模糊","玻璃反射步驟 5：曝光度與遮色片","影片：玻璃反射操作示範"];
-const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
+"PS 玻璃反射：高斯模糊、路徑模糊、曝光度與遮色片","玻璃反射步驟 1：去背並獨立圖層","玻璃反射步驟 2：複製物件，放到下層","玻璃反射步驟 3：高斯模糊","玻璃反射步驟 4：路徑模糊","玻璃反射步驟 5：曝光度與遮色片","影片：玻璃反射操作示範",
+"PS 包裝合成：矩形工具、智慧型物件、彎曲變形與混合選項","包裝合成步驟 1：矩形與智慧型物件","包裝合成步驟 2：彎曲變形貼合包裝","包裝合成步驟 3：置入設計並儲存","包裝合成步驟 4：色彩增值與混合選項","包裝合成步驟 5–6：獨立主體與剪裁遮色片","影片：包裝合成操作示範"];
+const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
   {id:"intro", t:"課程概覽與操作順序", p:[1,2,3]},
@@ -286,11 +287,12 @@ const GROUPS = [
   {id:"practice", t:"25 分鐘練習：FLOWER STUDY", p:[38]},
   {id:"keys", t:"常用快捷鍵", p:[39]},
  ]},
- {id:"extra", label:"補充教學", sub:"去背・換色・效果・玻璃反射", items:[
+ {id:"extra", label:"補充教學", sub:"去背・換色・效果・反射・包裝", items:[
   {id:"tree", t:"樹木去背（色版）", k:"Ctrl/Cmd+點縮圖", p:[50,51]},
   {id:"recolor", t:"換色處理（色相／飽和度）", k:"Ctrl/Cmd+I", p:[52,53,54,55]},
   {id:"effects", t:"圖像效果處理（臨界值）", k:"O / Ctrl/Cmd+J", p:[56,57,58,59,60,61,62,63]},
   {id:"glass", t:"玻璃反射（模糊與曝光度）", k:"Ctrl/Cmd+J", p:[64,65,66,67,68,69,70]},
+  {id:"package", t:"包裝合成（智慧型物件與彎曲）", k:"U / Ctrl/Cmd+T", p:[71,72,73,74,75,76,77]},
  ]},
  {id:"hw", label:"回家作業", sub:"暖身練習 1・FLOWER STUDY", items:[
   {id:"hwbrief", t:"作業公告與規格", p:[40,49]},
@@ -320,6 +322,9 @@ const DOWNLOADS = [
  {file:"downloads/fish-betta.jpg", name:"圖像效果_鬥魚_黑底.jpg", title:"鬥魚（黑底）", desc:"圖像效果處理練習主圖。魚鰭線條多，適合用臨界值與加亮／加深做出版畫感。", spec:"JPG・1721 × 2576 px", thumb:"downloads/fish-betta-thumb.webp", pages:[56,57,58,59,60,61,62,63], group:"圖像效果處理練習素材"},
  {file:"downloads/fish-tetra.jpg", name:"圖像效果_燈魚_白底.jpg", title:"燈魚（白底）", desc:"白底素材，練習選取主體、臨界值與選取顏色範圍。", spec:"JPG・2576 × 1923 px", thumb:"downloads/fish-tetra-thumb.webp", pages:[56,57,58,59,60,61,62,63], group:"圖像效果處理練習素材"},
  {file:"downloads/glass-bottle.jpg", name:"玻璃反射_範例圖片.jpg", title:"玻璃瓶範例圖片", desc:"玻璃反射練習用圖。先把玻璃瓶去背，再用高斯模糊與路徑模糊做出反射拖影。", spec:"JPG・1717 × 2576 px", thumb:"downloads/glass-bottle-thumb.webp", pages:[64,65,66,67,68,69,70], group:"玻璃反射練習素材"},
+ {file:"downloads/orchid.jpg", name:"包裝合成_素材_蘭花.jpg", title:"蘭花", desc:"包裝合成素材。放進「包裝設計」智慧型物件，再用彎曲變形貼合包裝。", spec:"JPG・1812 × 2576 px", thumb:"downloads/orchid-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
+ {file:"downloads/betta-red.jpg", name:"包裝合成_素材_紅色鬥魚.jpg", title:"紅色鬥魚（黑底）", desc:"包裝合成素材。黑底圖片搭配色彩增值，黑色部分會自然消失。", spec:"JPG・1717 × 2576 px", thumb:"downloads/betta-red-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
+ {file:"downloads/glass-bottle.jpg", name:"包裝合成_素材_玻璃瓶.jpg", title:"玻璃瓶與滴管", desc:"包裝合成素材，也是玻璃反射的練習圖。可當包裝上的設計圖案。", spec:"JPG・1717 × 2576 px", thumb:"downloads/glass-bottle-thumb.webp", pages:[71,72,73,74,75,76,77], group:"包裝合成練習素材"},
 ];
 
 const IMG = Array.from({length:PAGE_TITLES.length},(_,i)=>`slides/p-${String(i+1).padStart(2,"0")}.webp`);
