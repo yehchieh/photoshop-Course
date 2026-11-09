@@ -203,6 +203,8 @@ figcaption .teach{font-size:12px}
 .cp-b{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer}
 .cp-b:hover{border-color:var(--fill)}
 .cp-n{margin:10px 0 0;font-size:12px;color:var(--muted)}
+.st-list{margin:0;padding-left:1.5em;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px 24px;font-size:14px}
+.st-list li::marker{color:var(--accent);font-weight:700}
 /* Lightbox */
 .lb{position:fixed;inset:0;background:rgba(10,14,13,.92);display:flex;align-items:center;justify-content:center;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 48px) 16px calc(env(safe-area-inset-bottom,0px) + 48px)}
 .lb img{max-width:100%;max-height:100%;border-radius:4px;background:#fff}
@@ -265,8 +267,9 @@ const PAGE_TITLES = [
 "PS 玻璃反射：高斯模糊、路徑模糊、曝光度與遮色片","玻璃反射步驟 1：去背並獨立圖層","玻璃反射步驟 2：複製物件，放到下層","玻璃反射步驟 3：高斯模糊","玻璃反射步驟 4：路徑模糊","玻璃反射步驟 5：曝光度與遮色片","影片：玻璃反射操作示範",
 "PS 包裝合成：矩形工具、智慧型物件、彎曲變形與混合選項","包裝合成步驟 1：矩形與智慧型物件","包裝合成步驟 2：彎曲變形貼合包裝","包裝合成步驟 3：置入設計並儲存","包裝合成步驟 4：色彩增值與混合選項","包裝合成步驟 5–6：獨立主體與剪裁遮色片","影片：包裝合成操作示範",
 "練習作業 2：護手霜包裝海報","練習作業 2：使用工具與補充技法","作業 2 步驟 1：文件、背景與去背","作業 2 步驟 2：包裝設計與彎曲變形","作業 2 步驟 3：材質混合與範圍限制","作業 2 步驟 4：環繞文字與前後遮擋","作業 2 步驟 5：資訊排版與陰影","作業 2：文字素材與快捷鍵","回家作業公告：練習作業 2",
-"PS 立體環繞文字：文字變形、圓柱體彎曲與圖層前後關係","環繞文字步驟 1：新增文字與準備圖層","環繞文字步驟 2：彎曲變形與圓柱體","環繞文字步驟 3：複製文字，再調整彎曲","環繞文字：圖層順序（前方文字、產品、後方文字）","影片：立體環繞文字操作示範"];
-const VIDEOS = {51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 92:{id:"C7B0KAhCJI4", title:"PS-立體環繞文字（文字變形、文字彎曲、圖層概念）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
+"PS 立體環繞文字：文字變形、圓柱體彎曲與圖層前後關係","環繞文字步驟 1：新增文字與準備圖層","環繞文字步驟 2：彎曲變形與圓柱體","環繞文字步驟 3：複製文字，再調整彎曲","環繞文字：圖層順序（前方文字、產品、後方文字）","影片：立體環繞文字操作示範",
+"PS 文字穿透：實心文字在人物後方、外框文字在人物前方","文字穿透步驟 1：文字與智慧型物件","文字穿透步驟 2–3：人物去背與複製","文字穿透：圖層順序（外框、人物、實心文字）","文字穿透步驟 4：連結上下兩層文字","文字穿透步驟 5–6：填滿 0% 與筆畫邊框","影片：文字穿透操作示範"];
+const VIDEOS = {99:{id:"dCG3_uErpwg", title:"PS-文字穿透（文字工具、選擇主體、文字轉智慧型物件、筆畫、圖層連結）"}, 51:{id:"WuMMZhMEPzU", title:"PS-樹木去背（色版、色階、曲線、遮色片、筆刷）"}, 92:{id:"C7B0KAhCJI4", title:"PS-立體環繞文字（文字變形、文字彎曲、圖層概念）"}, 77:{id:"NtY8i0KQP1E", title:"PS-包裝合成(矩形工具、智慧型物件、彎曲變形、色彩增值、圖層混合選項)"}, 70:{id:"VmU0tfxqFAw", title:"PS-玻璃反射(高斯模糊、路徑模糊、曝光度、遮色片)"}, 63:{id:"z-mzwSfPXTA", title:"PS-圖像效果處理（臨界值、加亮工具、加深工具、選取顏色範圍）"}, 55:{id:"fQ2SglWQAzA", title:"PS-換色處理(選取不換色的範圍、新增圖層、製作遮色片、色相/飽和度調整)"}};
 const GROUPS = [
  {id:"start", label:"開始", sub:"課程概覽", items:[
   {id:"intro", t:"課程概覽與操作順序", p:[1,2,3]},
@@ -305,6 +308,7 @@ const GROUPS = [
   {id:"glass", t:"玻璃反射（模糊與曝光度）", k:"Ctrl/Cmd+J", p:[64,65,66,67,68,69,70]},
   {id:"package", t:"包裝合成（智慧型物件與彎曲）", k:"U / Ctrl/Cmd+T", p:[71,72,73,74,75,76,77]},
   {id:"wraptext", t:"立體環繞文字（彎曲與圖層）", k:"T / Ctrl/Cmd+J", p:[87,88,89,90,91,92]},
+  {id:"textthrough", t:"文字穿透（填滿 0% 與筆畫）", k:"Ctrl/Cmd+J", p:[93,94,95,96,97,98,99], steps:["新增文字，轉成智慧型物件","將人像去背，獨立成一個圖層","文字與去背人像都再各複製一層","最上層文字與下層文字設定連結","最上層文字的「填滿」改成 0%","最上層文字加上筆畫邊框"]},
  ]},
  {id:"hw", label:"回家作業", sub:"暖身練習 1・FLOWER STUDY", items:[
   {id:"hwbrief", t:"作業公告與規格", p:[40,49]},
@@ -557,6 +561,7 @@ function renderTopic(it){
       <button type="button" class="step nx" id="bNext"></button>
     </div>
     <p class="hint">點投影片左右兩側、手機左右滑動，或按 ← → 鍵換頁；點中間放大</p>
+    ${it.steps?`<section class="cp"><div class="cp-h"><h2>操作步驟</h2></div><ol class="st-list">${it.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></section>`:""}
     ${it.g.copy?copyBox(it.g.copy):""}
     ${dlBox(DOWNLOADS.filter(d=>d.pages.some(n=>it.p.includes(n))),"這個單元會用到的素材")}
     <div class="pager"><button type="button" class="prev" ${prev?`data-id="${prev.id}"`:"disabled"}><small>← 上一個功能</small><b>${prev?esc(prev.t):""}</b></button><button type="button" class="next" ${next?`data-id="${next.id}"`:"disabled"}><small>下一個功能 →</small><b>${next?esc(next.t):""}</b></button></div>`;
